@@ -122,7 +122,9 @@ module.exports = function prepareProxy (proxy, appPublicFolder) {
       )
       process.exit(1)
     }
-    const entry = createProxyEntry(config.target, config.onProxyReq, context)
+    // if the config already has a .context entry we assume they know what
+    // they're doing and just pass the object on to the devserver proxy
+    const entry = config.context ? {} : createProxyEntry(config.target, config.onProxyReq, context)
     return Object.assign({}, defaultConfig, config, entry)
   })
 }
